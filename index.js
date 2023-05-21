@@ -30,10 +30,12 @@ async function run() {
     const database = client.db("toysDB");
     const categoriesCollection = database.collection("categories");
     const toysCollection = database.collection("toys");
+    //get catagories
     app.get('/categories',async(req,res)=>{
         const result = await categoriesCollection.find().toArray();
         res.send(result)
     })
+    // get toys with and without query 
     app.get('/toys',async(req,res)=>{
       let query=""
       if(req.query){
@@ -41,6 +43,12 @@ async function run() {
       }
       const result =await toysCollection.find(query).toArray();
       // console.log(query)
+      res.send(result)
+    })
+    //post method to add toy
+    app.post('/toys',async(req,res)=>{
+      const doc=req.body;
+      const result = await toysCollection.insertOne(doc);
       res.send(result)
     })
 
