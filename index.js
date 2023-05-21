@@ -70,13 +70,12 @@ async function run() {
       res.send(result)
     })
 
-    
+
     // specific one toy put  using id
-    app.put('/toys/:id',async(req,res)=>{
+    app.patch('/toys/:id',async(req,res)=>{
       const id=req.params.id;
       const data=req.body;
       const filter = { _id: new ObjectId(id) };
-      const options = { upsert: true };
       const updateDoc = {
         $set: {
           name :data?.name,
@@ -90,7 +89,7 @@ async function run() {
           picture :data?.picture,
         },
       };
-      const result = await toysCollection.updateOne(filter, updateDoc, options);
+      const result = await toysCollection.updateOne(filter, updateDoc);
       res.send(result)
     })
     // Send a ping to confirm a successful connection
